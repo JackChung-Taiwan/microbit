@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>micro:bit 小小發明家入門</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+      background: linear-gradient(135deg, #e8f7ff, #fff6d8);
+      color: #243447;
+      line-height: 1.7;
+    }
+    header {
+      background: radial-gradient(circle at top left, #7ee8fa, transparent 35%), linear-gradient(135deg, #00a7c4, #7ac943);
+      color: white;
+      padding: 58px 20px;
+      text-align: center;
+    }
+    header h1 { font-size: clamp(34px, 5vw, 56px); margin: 0 0 12px; letter-spacing: 1px; }
+    header p { font-size: clamp(18px, 2.5vw, 24px); margin: 0; }
+    nav {
+      background: rgba(255,255,255,0.95);
+      padding: 15px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      backdrop-filter: blur(8px);
+    }
+    nav a {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #f0f7ff;
+      color: #0077aa;
+      text-decoration: none;
+      font-weight: 800;
+    }
+    nav a:hover { background: #0077aa; color: white; }
+    main { max-width: 1120px; margin: 30px auto; padding: 0 20px 50px; }
+    section {
+      background: rgba(255,255,255,0.96);
+      border-radius: 26px;
+      padding: 30px;
+      margin-bottom: 28px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    }
+    h2 {
+      color: #0088aa;
+      font-size: clamp(26px, 3vw, 34px);
+      border-left: 9px solid #7ac943;
+      padding-left: 14px;
+      margin-top: 0;
+    }
+    h3 { color: #f28c28; font-size: 23px; }
+    .hero-card { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+    .microbit-box {
+      background: #20232a;
+      border-radius: 28px;
+      padding: 30px;
+      color: white;
+      text-align: center;
+      min-height: 280px;
+      box-shadow: inset 0 0 0 6px rgba(255,255,255,0.06);
+    }
+    .microbit-screen {
+      width: min(250px, 90%);
+      height: 140px;
+      background: #111;
+      margin: 20px auto;
+      border-radius: 18px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 18px;
+    }
+    .led { background: #ff3b3b; border-radius: 50%; box-shadow: 0 0 12px #ff3b3b; }
+    .button-row { display: flex; justify-content: space-around; margin-top: 18px; }
+    .circle-btn {
+      background: #ddd;
+      color: #222;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: 0 5px 0 #aaa;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+    .card {
+      background: #f9fcff;
+      border: 2px solid #e2f1fa;
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .card:hover { transform: translateY(-3px); transition: 0.2s; }
+    .tag {
+      display: inline-block;
+      background: #ffe9b8;
+      color: #8a5a00;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .quiz {
+      border: 2px solid #e5f3ff;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+      background: #fbfdff;
+    }
+    .quiz p { font-weight: 900; font-size: 18px; }
+    .quiz button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 8px 0;
+      padding: 13px 14px;
+      border: none;
+      border-radius: 12px;
+      background: #eef7ff;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .quiz button:hover { background: #d8efff; }
+    .result { margin-top: 10px; font-weight: 900; }
+    .correct { color: #159947; }
+    .wrong { color: #d64545; }
+    .task {
+      background: #fffaf0;
+      border-left: 8px solid #ffb84d;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    .code-box {
+      background: #20232a;
+      color: #f8f8f2;
+      padding: 16px;
+      border-radius: 14px;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      white-space: pre-wrap;
+    }
+    .steps li { margin-bottom: 8px; }
+    footer { text-align: center; padding: 25px; background: #243447; color: white; }
+    .btn-main {
+      display: inline-block;
+      background: #00a7c4;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 900;
+      margin-top: 12px;
+    }
+    .btn-main:hover { background: #007f99; }
+    @media (max-width: 768px) {
+      .hero-card { grid-template-columns: 1fr; }
+      section { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>micro:bit 小小發明家入門</h1>
+  <p>認識感測器、寫程式、做出自己的互動小作品</p>
+</header>
+
+<nav>
+  <a href="#intro">認識 micro:bit</a>
+  <a href="#sensors">感測器介紹</a>
+  <a href="#quiz">選擇題</a>
+  <a href="#tasks">實作題</a>
+  <a href="#github">GitHub Pages</a>
+</nav>
+
+<main>
+  <section id="intro">
+    <h2>一、什麼是 micro:bit？</h2>
+    <div class="hero-card">
+      <div>
+        <p>micro:bit 是一塊小型程式學習板，可以用來學習程式設計、電子控制與創意發明。它雖然小小一片，卻像一座迷你實驗室，可以顯示圖案、偵測動作、感受光線，還能做出互動作品。</p>
+        <p>初學者可以使用 <strong>MakeCode 積木程式</strong> 控制 micro:bit，例如讓 LED 顯示愛心、按按鈕計分、搖晃時出現骰子點數，或利用光線感測器製作小夜燈。</p>
+        <a class="btn-main" href="https://makecode.microbit.org/" target="_blank" rel="noopener">前往 MakeCode 編輯器</a>
+      </div>
+      <div class="microbit-box" aria-label="microbit illustration">
+        <h3>micro:bit LED 顯示板</h3>
+        <div class="microbit-screen">
+          <div></div><div class="led"></div><div></div><div class="led"></div><div></div>
+          <div class="led"></div><div></div><div class="led"></div><div></div><div class="led"></div>
+          <div class="led"></div><div></div><div></div><div></div><div class="led"></div>
+          <div></div><div class="led"></div><div></div><div class="led"></div><div></div>
+          <div></div><div></div><div class="led"></div><div></div><div></div>
+        </div>
+        <div class="button-row"><div class="circle-btn">A</div><div class="circle-btn">B</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sensors">
+    <h2>二、micro:bit 可以用到哪些感測器？</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">光線感測</span><h3>光線感測器</h3><p>可以偵測環境亮不亮。適合做小夜燈、亮度提醒器。</p></div>
+      <div class="card"><span class="tag">動作感測</span><h3>加速度感測器</h3><p>可以偵測搖晃、傾斜、移動。適合做骰子、運動計步器。</p></div>
+      <div class="card"><span class="tag">方向感測</span><h3>指南針感測器</h3><p>可以偵測方向。適合做簡單指南針或方向挑戰遊戲。</p></div>
+      <div class="card"><span class="tag">溫度感測</span><h3>溫度感測器</h3><p>可以偵測目前溫度。適合做溫度提醒器。</p></div>
+      <div class="card"><span class="tag">按鈕輸入</span><h3>A、B 按鈕</h3><p>可以讓使用者輸入指令，例如按 A 加分，按 B 歸零。</p></div>
+      <div class="card"><span class="tag">LED 輸出</span><h3>5 × 5 LED 燈</h3><p>可以顯示圖案、數字、箭頭、文字，是 micro:bit 的小小表情板。</p></div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2>三、選擇題練習</h2>
+    <p>點選答案後會立即顯示結果。</p>
+    <div class="quiz"><p>1. micro:bit 上的 5 × 5 LED 可以用來做什麼？</p><button onclick="checkAnswer(this, false)">A. 只能充電</button><button onclick="checkAnswer(this, true)">B. 顯示圖案、數字或文字</button><button onclick="checkAnswer(this, false)">C. 列印紙張</button><div class="result"></div></div>
+    <div class="quiz"><p>2. 想偵測「搖一搖」的動作，通常會用到哪一種感測器？</p><button onclick="checkAnswer(this, false)">A. 光線感測器</button><button onclick="checkAnswer(this, true)">B. 加速度感測器</button><button onclick="checkAnswer(this, false)">C. 溫度感測器</button><div class="result"></div></div>
+    <div class="quiz"><p>3. 如果要做一個「天黑會提醒」的小工具，可以使用哪個功能？</p><button onclick="checkAnswer(this, true)">A. 光線感測</button><button onclick="checkAnswer(this, false)">B. 螢幕截圖</button><button onclick="checkAnswer(this, false)">C. 列印文件</button><div class="result"></div></div>
+    <div class="quiz"><p>4. 按下 micro:bit 的 A 按鈕，可以設計成什麼功能？</p><button onclick="checkAnswer(this, false)">A. 只能關機</button><button onclick="checkAnswer(this, true)">B. 讓分數增加或顯示圖案</button><button onclick="checkAnswer(this, false)">C. 完全不能控制</button><div class="result"></div></div>
+    <div class="quiz"><p>5. micro:bit 適合初學者學習程式設計的原因是什麼？</p><button onclick="checkAnswer(this, true)">A. 可以用積木程式，容易上手</button><button onclick="checkAnswer(this, false)">B. 一定要先學很難的電路</button><button onclick="checkAnswer(this, false)">C. 只能給專業工程師使用</button><div class="result"></div></div>
+  </section>
+
+  <section id="tasks">
+    <h2>四、micro:bit 實作題</h2>
+    <div class="task"><h3>實作題 1：按鈕打招呼</h3><p><strong>任務：</strong>按下 A 按鈕時，LED 顯示「Hi」。</p><p><strong>提示：</strong>使用「當按鈕 A 被按下」與「顯示字串」。</p><div class="code-box">當按鈕 A 被按下
+顯示字串 "Hi"</div></div>
+    <div class="task"><h3>實作題 2：搖一搖骰子</h3><p><strong>任務：</strong>搖晃 micro:bit 時，隨機顯示 1 到 6 的數字。</p><p><strong>使用感測器：</strong>加速度感測器。</p><div class="code-box">當搖晃
+設定 number 為 1 到 6 的隨機數
+顯示 number</div></div>
+    <div class="task"><h3>實作題 3：光線小夜燈</h3><p><strong>任務：</strong>如果光線太暗，就顯示月亮圖案；如果很亮，就顯示太陽圖案。</p><p><strong>使用感測器：</strong>光線感測器。</p><div class="code-box">重複無限次
+如果 光線亮度 小於 80
+  顯示月亮圖案
+否則
+  顯示太陽圖案</div></div>
+    <div class="task"><h3>實作題 4：簡易溫度提醒器</h3><p><strong>任務：</strong>如果溫度超過 30 度，顯示驚嘆號；否則顯示笑臉。</p><p><strong>使用感測器：</strong>溫度感測器。</p><div class="code-box">重複無限次
+如果 溫度 大於 30
+  顯示圖示：驚訝
+否則
+  顯示圖示：笑臉</div></div>
+  </section>
+
+  <section>
+    <h2>五、課堂挑戰活動</h2>
+    <div class="grid">
+      <div class="card"><h3>挑戰 A：誰是幸運骰王？</h3><p>每位學生搖 micro:bit 一次，數字最大的人獲勝。</p></div>
+      <div class="card"><h3>挑戰 B：教室光線偵探</h3><p>到教室不同角落測試光線，找出最亮與最暗的位置。</p></div>
+      <div class="card"><h3>挑戰 C：溫度觀察員</h3><p>觀察不同地點的溫度，例如窗邊、門口、冷氣附近。</p></div>
+    </div>
+  </section>
+
+  <section id="github">
+    <h2>六、如何開啟 GitHub Pages？</h2>
+    <ol class="steps">
+      <li>進入這個 Repository 的 <strong>Settings</strong>。</li>
+      <li>左側找到 <strong>Pages</strong>。</li>
+      <li>Source 選擇 <strong>Deploy from a branch</strong>。</li>
+      <li>Branch 選擇 <strong>main</strong>，資料夾選 <strong>/ root</strong>。</li>
+      <li>按下 Save，等待 GitHub 產生網址。</li>
+    </ol>
+  </section>
+</main>
+
+<footer>micro:bit 小小發明家入門｜適合初學者的程式與感測器課程</footer>
+
+<script>
+  function checkAnswer(button, isCorrect) {
+    const quizBox = button.parentElement;
+    const result = quizBox.querySelector(".result");
+    const buttons = quizBox.querySelectorAll("button");
+    buttons.forEach(btn => {
+      btn.style.background = "#eef7ff";
+      btn.style.color = "#243447";
+      btn.disabled = true;
+    });
+    if (isCorrect) {
+      button.style.background = "#d8f8e3";
+      button.style.color = "#159947";
+      result.innerHTML = "答對了！micro:bit 小博士誕生！";
+      result.className = "result correct";
+    } else {
+      button.style.background = "#ffe0e0";
+      button.style.color = "#d64545";
+      result.innerHTML = "再想想看，這題還有更適合的答案。";
+      result.className = "result wrong";
+    }
+  }
+</script>
+</body>
+</html>
